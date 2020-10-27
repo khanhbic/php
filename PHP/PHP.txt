@@ -1,0 +1,334 @@
+Backend:
+-PHP: personal hypertext programing language
+- file .php
+- web request: mặc định port 80 (http) hoặc port 443 (https, ssl)
+- web server ảo: 
+  + apache: là web server ảo
+  + php: ngôn ngữ lập trình trên server
+  + mysql: database
+- root folder(thư mục gốc): 
+  + là thư mục chứa file đầu tiên của website(index) 
+  + khi truy cập vào tên miền có nghĩa sẽ truy cập vào thư mục này ở trên máy chủ (htdocs)
+
+- cách viết: <?php	?>
+- xuất ra mh: echo 'i m khanh';
+- phpinfo(); \\hàm xem thông tin của php
+- Loaded Configuration File: php.ini : là file cấu hình của php
+- khai báo biến: $tên_biến = giá_trị;
+	vd: $name = 'hoàng văn khánh';
+	    $age = 21;
+- các kiểu biến: 
+  + string (chuỗi gồm chữ và số, có dấu ' ở 2 bên)
+	vd: $name = 'hoàng văn khánh';
+	. để nối chuỗi ta dùng kí hiệu '.'
+		vd: $name2 = $name . 'love you' . $age . 'tuổi';
+		vd2: $name3 = "$name love you $age tuổi";
+	. thấy được sự khác biệt giữa dấu ' và " 
+		. về hiệu năng thì nháy đôi tốn bộ nhớ hơn
+		. nếu chuỗi có biến ở trong thì sử dụng dấu nháy đôi
+  + integer(số nguyên):
+	vd: $age = 21;
+  + float(số thập phân);
+	vd: $height = 1.69;
+  + double(cũng là số thập phân nhưng có độ dài bit cao hơn float):
+  + array(mảng): có 2 cách khai báo mảng tùy theo phiên bản php là php 5 hoặc php 7
+	. với php 7:
+		vd: $students = [
+			'hoàng văn khánh',
+			'leo messi'
+	   	    ];
+	. với php 5 (có thể chạy trên cả php 7):
+		vd: $students = array (
+			'hoàng văn khánh',
+			'leo messi'
+	   	    );
+	. để in ra mảng: var_dump(); hoặc print_r();
+		vd: var_dump($students);\
+		vd: print_r($students);
+  + boolean: true or false:
+	vd: $isLightOn = True;
+  + object: OOP
+  + resource: kiểu dữ liệu mã nguồn
+
+- hằng số: là các giá trị không thay đổi trong suốt chương trình
+	. có từ khóa const và tên biến viết hoa
+	vd: const NAME = 'khánh'; //php 7
+	
+	vd: define('NAME', 'khánh'); //php 5 + 7
+- function(hàm): đoạn code được định nghĩa cho một chức năng cụ thể:
+	vd: function nextYear($age) {
+		return $age + 1;
+            }
+
+- php có 2 loại mảng:
+  + mảng không khai báo key (key tự động bắt đầu từ 0) khi các thành phần của mảng đều cùng thể hiện cho 1 đối tượng nhất định
+	vd: $students = [
+			'hoàng văn khánh',
+			'leo messi'
+	   	    	]; 
+  + mảng có khai báo key: được sử dụng khi mỗi thành phần thể hiện cho 1 đối tượng khác nhau
+	vd: $human = [
+		'name' => 'khánh',
+		'age' => 21,
+		'height' => 60,
+		'weight' => 170
+	    ];
+
+- 1 số hàm xử lý chuỗi:
+  + string:
+	. str_split(); \\ cắt chuỗi theo số lượng chia thành mảng gồm các kí tự
+		vd: $fullName = 'hoàng văn khánh';
+		    $name = str_split($fullName, số_kí_tự_muốn_cắt);
+		    print_r($name);
+
+	. explode(); \\ cắt chuỗi theo kí tự nào đó chia thành mảng gồm các kí tự
+		vd: $fullName = 'hoàng văn khánh';
+		    $name = explode(' ',$fullName);
+		    print_r($name);
+	=> array (
+		[0] => hoàng
+		[1] => văn
+		[2] => khánh
+	   )
+
+	. implode(); \\nối chuỗi từ mảng nào đó
+		vd: $fullName = 'hoàng văn khánh';
+		    $name = explode(' ',$fullName);
+		    $newName = implode('-', $name);
+		    print_r($newName);
+	. str_replace(); \\thay thế kí tự trong chuỗi thành kí tự khác
+		vd: $fullName = 'hoàng văn khánh';		  
+		    $newName = str_replace('kí_tự_cũ','kí_tự_mới', biến);\
+		    $newName = str_replace(' ', '-', $fullName);
+		    print_r($newName);
+	. substr(); \\lấy ra chuỗi từ vị trí kí tự này đến vị trí kí tự khác
+		vd: $fullName = 'hoàng văn khánh';
+		    $newName = substr($fullName, 1, 6);
+		    print_r($newName);
+		=> kq: 'oàng v'
+	. strlen(): hàm đếm số kí tự trong chuỗi
+		vd: $fullName = 'hoàng văn khánh';
+		    print_r( strlen($fullname) );
+	. strpos();
+		. vị trí của 1 chuỗi con trong chuỗi cha. 
+		. Nếu không tồn tại thì trả về false (kiểu boolean)
+		. Nếu cần tìm giá trị ở đầu chuỗi thì phải so sánh '==='
+		vd: $fullName = 'hoàng văn khánh';
+		    $testName = strpos($fullName ,'văn');
+		    print_r($testName);
+	. trim(); \\cắt khoảng trắng ở 2 đầu
+  + array:
+	. count(): lấy số lượng phần tử của mảng
+	. thêm 1 phần tử vào cuối mảng:
+		. với mảng không khai báo key: array_push(): đối với mảng kiểu này có thể sử dụng cả cách đối với mảng có khai báo key
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi'
+	   		    );
+			    array_push($students, 'đặng văn chính');
+			    $students[] = 'đặng văn chính';
+		. với mảng khai báo key: $tên_mảng['key'] = ...;
+			vd:  $human = [
+				'name' => 'khánh',
+				'age' => 21,
+				'height' => 60,
+				'weight' => 170
+	  		     ];	
+			     $human['lover'] = 'linh';	
+	. array_pop() :xóa phần tử cuối cùng của mảng:
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi'
+	   		    );
+			    array_pop($students);
+	. array_shift() :xóa phần tử đầu tiên của mảng:
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi'
+	   		    );
+			    array_shift($students);
+	. array_unshift() : thêm 1 phần tử vào vị trí đầu tiên của mảng:
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi'
+	   		    );
+			    array_unshift($students, 'đặng văn chính');
+	. tên_mảng[vị_trí_phần_tử_cũ] = 'giá_trị_phần_tử_mới' : sửa 1 phần tử của mảng:
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi'
+	   		    );
+			    $students[2] = 'đặng văn chính';
+	. sort(): hàm sắp xếp
+		. chú ý: hàm này chỉ sử dụng cho các biến reference (các biến đã được khai báo giá trị)
+			vd: $num = [5,3,67,12,34];
+			    sort($num);
+			=> 3,5,12,34,67
+		. nếu mảng có cả chuỗi và số thì ưu tiên sắp xếp chuỗi trước
+		. hàm này không có tác dụng với các key mà chỉ sắp xếp với các value
+			vd:  $human = [
+				'name' => 'khánh',
+				'add' => 'thánh bình',
+				'height' => 60,
+				'age' => 21
+	  		     ];
+			     sort($human);
+			=> khánh, thái bình, 21, 60
+	. array_reverse() : hàm sắp xếp theo chiều ngược lại của hàm sort()
+		. chú ý: phải gán hàm vào 1 biến thì mới có thể sử dụng
+			vd:  $human = [
+				'name' => 'khánh',
+				'add' => 'thánh bình',
+				'height' => 60,
+				'age' => 21
+	  		     ];
+			     $ar = array_reverse($human);
+		 	     print_r($ar);
+			=> khánh, thái bình, 21, 60
+	. array_slice(arr, start, length): hàm lấy ra 1 phần của mảng và không làm thay đổi mảng đó
+			. nếu bỏ length thif sẽ tự động lấy đến giá trị cuối cùng
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi',
+				'đặng văn chính'
+			    );
+			    $a = array_slice($students, 1, 2);
+	. array_splice(arr, start, length): hàm lấy ra 1 phần và xóa luôn phần đó mảng
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi',
+				'đặng văn chính'
+			    );
+			    $a = array_splice($students, 1, 2);
+	. array_rand(): hàm lấy ngẫu nhiên 1 phần tử của mảng
+	. array_merge(): hàm gộp 2 hay nhiều mảng thành 1 mảng chung
+			vd: $classA = [a, b, c];
+			    $classB = [d, e, f, g];
+			    $all = array_merge($classA, $classB);
+			=> [a,b,c,d,e,f,g]
+	. array_keys(): hàm lấy lấy ra các key 
+	. array_map(): vòng lặp đối với biến array, hàm này thao thao tác mục đích để tạo ra function để có thể lấy giá trị trả về
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi',
+				'đặng văn chính'
+			    );
+			    $nameT = array_map(function($student){
+				if (strpos($student, 't') !== false){
+					return $student;
+				}
+				return 'tên này không có chữ `t` ';
+			    }, $students);
+			    print_r(nameT);
+			
+  + loop (vòng lặp):
+	. foreach():
+			vd: $human = [
+        			'name' => 'khánh',
+        			'add' => 'thánh bình',
+       	 			'height' => 60,
+        			'age' => 21
+             		    ];
+           		    foreach($human as $key => $value){
+           			 echo $key. ' là '. $value;
+            		    }
+	. for():
+			vd: $nameSt = ['khánh', 'linh', 'chính'];
+			    for($index = 0; $index < count($nameSt); $index++) {
+				echo $nameSt[$index];
+			    }
+		. continue; \\ bỏ qua giá trị áp dụng điều kiện và tiếp tục vòng lặp
+			vd: $nameSt = ['khánh', 'linh', 'chính'];
+			    for($index = 0; $index < count($nameSt); $index++) {
+				if ($index == 1) {
+					continue; // bỏ qua 'linh' và tiếp tục vòng lặp
+				}
+				echo $nameSt[$index];
+			    }
+		. break; \\ nếu bắt gặp giá trị áp dụng điều kiện thì dừng và thoát vòng lặp
+			vd: $nameSt = ['khánh', 'linh', 'chính'];
+			    for($index = 0; $index < count($nameSt); $index++) {
+				if ($index == 1) {
+					break; // dừng vòng lặp (bỏ qua cả giá trị 'linh')
+				}
+				echo $nameSt[$index];
+			    }
+	. array_map(): vòng lặp đối với biến array, hàm này có mục đích để tạo ra function để có thể lấy giá trị trả về, ở ví dụ dưới, những giá trị return sẽ được gắn lại cho biến $nameT
+			vd: $students = array (
+				'hoàng văn khánh',
+				'leo messi',
+				'đặng văn chính'
+			    );
+			    $nameT = array_map(function($student){
+				if (strpos($student, 't') !== false){
+					return $student;
+				}
+				return 'tên này không có chữ `t` ';
+			    }, $students);
+			    print_r(nameT);
+
+- Biến trong PHP:
+  - php có 2 loại biến:
+  + biến tự tạo từ dev:
+  + biến môi trường: là các biến có sẵn của php (có dấu _ và viết hoa)
+	. $_POST: nhận data form (không hiện data trên url)
+			vd: <form method="post" action="process.php">
+			    </form>
+	. $_GET: nhận data từ url (hiện data trên url)
+			vd: <form method="get" action="process.php">
+			    </form>
+
+	    . hàm isset(): kiểm tra xem 1 biến có tồn tại hay không (trả về true hoặc false):
+	    	vd: $username = isset($_POST['username']);
+
+	    * chú ý: 
+	    	. cả 2 biến này đểu được mã hóa sử dụng url encoding
+	    	. Khi lấy dữ liệu nên dùng GET để truy xuất và xử lí nhanh hơn.
+			. Khi tạo dữ liệu nên dùng POST để bảo mật dữ liệu hơn. 
+				. Một ví dụ cụ thể như trong trường hợp bạn cần tạo một form để người dùng upload avatar hay video thì chúng ta thường sẽ sử dụng phương thức POST. 
+				. Tuy nhiên khi tải về avatar hoặc video thì bạn lại nên sử dụng phương thức GET. 
+				. Ngoài ra khi cần xử lý các thông tin nhạy cảm ví dụ như email, password thì bạn cần sử dụng POST thay vì GET.
+
+	. $_SESSION: là biến môi trường trên serve => lưu phiên đăng nhập, lưu biến giữa trang này với trang khác
+		. vấn đề: biến được khai báo ở trang A khi chuyển sang trang B thì trang B sẽ không nhận được biến ở trang A đã khai báo từ trước
+		. để sử dụng biến này ta sử dụng hàm session_start() ở mỗi trang
+		. biến này chỉ có thể truy cập trên cùng 1 domain, cùng 1 server, cùng 1 trình duyệt
+		. mỗi người dùng có 1 session riêng, đại diện cho 1 người dùng
+		. $_SESSION: là 1 biến trên server được lưu lại dưới dạng file ở server (session.save_path)
+			. các file này sẽ tự động bị xóa bỏ sau 1 thời gian nhất định nếu người dùng không còn truy cập vào
+		. cookie: là các biến tương tự SESSION nhưng lại được lưu trên máy người dùng với tên : PHPSESSID
+			. check PHPSESSID trong: F12/Application/Cookies/...
+			. tên cookie sẽ trùng với tên file được lưu trên server.
+			. máy client sẽ gửi đi request với tên PHPSESSID nếu trên server có file trùng thì sẽ gửi về
+		. vì mỗi người dùng hay trình duyệt sẽ gửi đi 1 PHPSESSID khác nhau nên server sẽ từ đó mà biết được phiên đăng nhập của từng trình duyệt
+
+	. $_REQUEST
+	. $_SERVER
+	    
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

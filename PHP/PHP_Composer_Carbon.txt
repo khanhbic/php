@@ -1,0 +1,5 @@
+* Tải composer về và cài đặt
+* mở project và cài đặt Carbon
+	cmd: composer require nesbot/carbon
+* để sử dụng Carbon ta phải gọi namespcace của nó và require file autoload.php
+	

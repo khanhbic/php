@@ -1,0 +1,506 @@
+********PHP OOP********
+ 
+- về cơ bản OOP là cách để code hóa các sự vật trong đời thực
+- các sự vật đó sẽ được gọi là các lớp(class) để để định nghĩa cho sự vật đó
+    vd: class watch {
+        public $abc = 1000;
+        function run() {
+           echo "run for your life!!!";
+        }
+        }
+- khởi tạo bằng từ khóa 'new': dựa trên class đã có để tạo ra 1 sự vật cụ thể. Nếu không tạo ra 1 sự vật cụ thể thì class không có tác dụng gì cả
+    vd:  myWatch = new watch();
+- Để lấy thuộc tính của 1 class hoặc sử dụng 1 function trong class ta sử dụng kí tự "->"
+    vd: echo $myWatch->abc;
+        
+        myWatch->run();
+
+- Constructor: hàm khởi tạo. 
+    + Là hàm luôn được chạy khi tạo đối tượng mà không cần phải được gọi đến
+    + bao nhiêu đối tượng được tạo sẽ có bấy nhiêu hàm constructor được chạy
+        vd: function __construct(){
+            echo "bắt đầu";
+            echo $dai;
+                }
+    + khi khởi tạo sẽ có thể sử dụng tham số
+        vd: function __construct($dai){
+            echo "bắt đầu";
+            echo $dai;
+                }
+            myWatch = new watch(1000);
+- Destructor: hàm hủy khởi tạo.
+- Property (là các thuộc tính của các class:
+  + Được viết bằng các tính từ
+  + Để lấy thuộc tính ra ta sử dụng dấu ->
+    vd: class watch {
+        public $abc = 1000;
+        }
+        myWatch = new watch();
+        echo $myWatch->abc;
+  + Thông thường các thuộc tính được set ở các constructor
+    vd: class watch {
+        public $abc = 1000;
+        public $vbn = "love";
+        public $fgh = "love3000";
+        function __construct($abc, $vbn, $fgn){
+
+            }
+        }
+        myWatch = new watch();
+        echo $myWatch->abc;
+- Từ khóa chỉ mức độ truy cập: Có 3 mức độ truy cập
+  + public : công khai
+  + protected : được bảo vệ
+  + private: riêng tư
+
+- method (hàm):
+  + là đoạn code để thực thi 1 công việc cụ thể nào đấy
+    vd: public function run() {
+           echo "run for your life!!!";
+        }   
+
+  + hàm thì phải có giá trị trả về "return"
+    vd: function tinhDienTich(){
+           return $this->rong * $this->dai; 
+        }
+
+  + hàm cũng có 3 mức độ truy cập : public, protected, private
+  + mặc định hàm __construct() là hàm public
+  + nếu các hàm được chủ đích là public thì không cần viết từ khóa public, tuy nhiên nên viết để đàm bảo đọc hiểu cho người xem code
+
+- từ khóa "this":
+  + this là đang chỉ vào đối tượng hiện tại và đại diện cho 1 class
+    vd: class hinhChuNhat {
+        public $rong = 10;
+        public $dai = 20;
+        function tinhDienTich(){
+           return $this->rong * $this->dai; 
+        }
+        }
+        $hcn1 = new hinhChuNhat();
+        $hcn1->tinhDienTich();
+  + từ khóa "this" chỉ được sử dụng trong 1 class
+  + kết hợp với hàm __construct() để set giá trị cho 1 đối tượng mới:
+    vd: <?php
+            class hinhChuNhat {
+                public $rong = 10;
+                public $dai = 20;
+                
+                function __construct($rong, $dai)
+                {
+                    $this->rong = $rong;
+                    $this->dai = $dai;
+                }
+                
+                function tinhDienTich(){
+                   return $this->rong * $this->dai; 
+                }
+            }
+            $hcn1 = new hinhChuNhat(1, 2);
+            echo $hcn1->tinhDienTich();
+
+            $hcn2 = new hinhChuNhat(5,6);
+            echo $hcn2->tinhDienTich();
+        ?>
+- static method:
+  + sử dụng cho 1 số hàm có thể gọi đến mà không cần khởi tạo đối tượng thực tế (new)
+        vd: class person {
+                public $cao = 0;
+                public $name = '';
+                public $age = 0;
+
+                public static function sayHello() {
+                    echo 'Hello';
+                }
+            }
+            person::sayHello();
+  + thường được sử dụng cho các hàm thư viện
+  + không thể set các giá trị cho hàm đó
+
+- static Property:
+  + là các thuộc tính có thể gọi đến mà không cần khởi tạo đối tượng thực tế (new)
+        vd: class person {
+                public $name = '';
+                public static $age = 0;
+            }
+            person::$age;
+
+- extends: kế thừa class
+  + tạo ra các class có các đặc tính chung sau đó cho các class khác kế thừa các lớp này để có thể sử dụng các thuộc tính đó
+        vd: class animal {
+              public $weight = 0;
+
+              function eat(){
+                echo 'ăn';
+              }
+            }
+
+            class tiger extends animal {
+
+            }
+            $tiger1 = new tiger();
+            echo $tiger1->eat();
+  + tư tưởng OOP:
+    . tạo những class basic
+    . tạo những class chi tiết và extends các class basic            
+
+- overide: (ghi đè) nếu ở class cha có 1 hàm nào đó mà ở class con cũng có hàm giống như vậy thì dù có extends thì hàm đó được tính theo class con
+        vd: <?php
+              class hinhChuNhat {
+                public $rong = 0;
+                public $dai = 0;
+                
+                function __construct($rong, $dai)
+                {
+                    $this->rong = $rong;
+                    $this->dai = $dai;
+                }
+                
+                function chuVi(){
+                    return ($this->rong + $this->dai)*2; 
+                }
+              }
+              $hcn1 = new hinhChuNhat(1, 2);
+              echo $hcn1->chuVi();
+
+              class hinhVuong extends hinhChuNhat {
+                function __construct($canh) // ghi đè hàm constructor của class hinhChuNhat
+                {
+                  $this->rong = $canh;
+                  $this->dai = $canh;
+                }
+              }
+              $hv1 = new hinhVuong(5);
+              echo $hv1->chuVi();
+            ?>
+
+- Từ khóa chỉ mức độ truy cập (visibility): Có 3 mức độ truy cập
+  + public (công khai): có thể lấy được ở mọi nơi
+  + protected (được bảo vệ): chỉ có thể lấy được ở các class con kế thừa từ class cha (phải được viết trong class con đó)
+  + private (riêng tư): chỉ có thể lấy được trong class của chính nó  (phải được viết trong chính class đó)
+
+- call parents methods: gọi lên class cha để lấy một function nào đó giúp cho hàm đó ở class cha không bị ghi đè khi ở class con có 1 function tương tự
+            vd: <?php
+
+                  class animal {
+                    public function __construct()
+                    {
+                      echo "động vật!";
+                    }
+                  }
+                  class cat extends animal {
+                    public function __construct()
+                    {
+                      parent::__construct();
+                      echo "mèo!";
+                    }
+                  }
+                  $myCat = new cat();
+
+                ?>
+            => kết quả: động vật!mèo!
+
+- abstract class: (lớp trừu tượng) tạo ra class gốc cho các class khác kế thừa
+  + khi thiết kế 1 project đầu tiên định nghĩa những class cơ bản: các base class sẽ có yêu cầu các class con tuân thủ các quy tắc đã được đặt ra
+  + khi ở class cha có 1 hàm được khai báo dưới dạng abstract thì ở class con bắt buộc phải tạo ra các hàm đó
+  + hàm abstract thì không có nội dung bên trong nó chỉ được tạo ra để làm quy tắc bất buộc cho các class sau kế thừa class cha
+  + để 1 hàm có thể là abstract thì lớp đó phải được khai báo là abstract
+  + đặc tính của abstract class là KHÔNG THỂ tạo ra 1 thực thể nào đó, không thể 'new' nó được và class này chỉ sử dụng cho class khác extends nó mà thôi
+              vd: <?php
+                    abstract class animal {
+                      abstract public function run(); // không có body method
+                    }
+                    class cat extends animal {                      
+                      public function run()
+                      {
+                        
+                      }
+                    }
+                    $myCat = new cat();
+                  ?>
+
+- inrterface: 
+  + là những class riêng để sử dụng trường hợp muốn thêm các hàm vào 1 class nào đó
+  + giống abstract class thì inrterface cũng tạo ra các hàm bắt buộc các class con phải tạo ra các hàm cụ thể  
+  + những hàm này cũng không có nội dung bên trong            
+  + sử dụng từ khóa 'implements' chung với 'extends' để thể hiện ý nghĩa vừa kế thừa lớp này vừa kế thừa lớp khác
+              vd: <?php
+                    class animal {
+                      public function eat() {
+
+                      }
+                    } 
+                    interface swimming {
+                      public function swim();
+                    }
+
+                    interface flying {
+                      public function fly();
+                    }
+
+                    class elephant extends animal { // con voi biết ăn
+
+                    }
+                    class fish extends animal implements swimming{ // con cá vừa biết ăn vừa biết bơi
+                      public function swim()
+                      {
+                        
+                      }
+                    }
+                    class duck extends animal implements swimming, flying {
+                      public function swim()
+                      {
+                        
+                      }
+                      public function fly()
+                      {
+                        
+                      }
+                    }
+                  ?>
+
+- trait:
+  + là tập hợp các hàm rồi sao chép sang 1 vị trí mới
+  + sau khi interface xong để tránh việc viết lại hàm nhiều lần ta sử dụng trait như 1 cách để có thể sử dụng hàm đó 1 cách nhanh hơn
+  + mỗi lần cần sử dụng chỉ cần dùng từ khóa 'use'
+  + nên viết interface và trait thành từng cặp để cho dễ code
+              vd:  <?php
+
+                    class animal {
+                      public function eat() {
+
+                      }
+                    } 
+
+                    interface swimming {
+                      public function swim();
+                    }
+                    
+                    trait swim {
+                      function swim() {
+                        echo 'biết bơi!';
+                      }
+                    }
+                    
+                    interface flying {
+                      public function fly();
+                    }
+                    
+                    trait fly {
+                      function fly() {
+                        echo 'biết bay!';
+                      }
+                    }
+
+                    class elephant extends animal {
+
+                    }
+
+                    class fish extends animal implements swimming{
+                      use swim;
+                    }
+                    $sharkFish = new fish();
+                    $sharkFish->swim();
+                        
+                    class poultry extends animal implements swimming, flying {
+                      use swim;
+                      use fly;
+                    }
+                    $duck = new poultry();
+                    $duck->fly();
+                    
+                  ?>
+
+- namespace: 
+  + trường hợp nhiều người trong team dev cùng làm 1 project code trùng 1 nhau tên 1 class
+  + dùng để phân biệt các class bị trùng tên do các dev khác nhau đặt
+  + bắt buộc đặt ở đầu file
+  + thường đặt tên viết hoa chữ cái đầu tiên\
+                vd: <?php
+                      namespace Linh;
+                      class person {
+
+                      }
+
+                    <?php
+                      namespace Chinh;
+                      class person {
+
+                      }
+  + muốn tạo object mới từ class của 1 dev bất kỳ ta có các cách: (nên sử dụng cách thứ 3)
+    ++ sử dụng ký tự "\"                                                                                                                                                                                                                                         
+                vd: <?php
+                      require('chinh.php');
+                      require('linh.php');
+
+                      $sp1 = new \Linh\person();
+                      $sp1->sayHello();
+
+                      $sp2 = new \Chinh\person();
+                      $sp2->sayHello();
+
+                    ?>
+    ++ sử dụng từ khóa 'use' (chỉ có thể use được 1 class của 1 namespace):
+                vd: <?php
+                      require('chinh.php');
+                      require('linh.php');
+
+                      use \Linh\person;
+                      $ps1 = new person();
+
+                    ?>           
+    ++ đặt lại tên bằng từ khóa 'as' (sử dụng cách này kết hợp với 'use' ở trên sẽ giúp việc code trở nên đỡ phức tạp hơn):
+                vd: <?php
+                      require('chinh.php');
+                      require('linh.php');
+
+                      use \Linh\person as linhPerson;
+                      use \Chinh\person as chinhPerson;
+
+                      $sp1 = new linhPerson();
+                      $sp1->sayHello();
+                      $sp2 = new chinhPerson();
+                      $sp2->sayGoodbye();
+                    ?>                         
+
+- standard class (stdClass) : là class trống mặc định trong php và tất cả mọi class trong php đều extands từ standard class
+  + khi muốn tạo 1 object trống t chỉ cần new standard class mà không cần tạo ra bất kì class nào khác:
+                vd: $s = new stdClass();
+                    $a->name = 'khánh';
+
+- http : (hypertext transfer protocol request) : là phương thức truyền các thẻ html
+  - mỗi request và response sẽ đều có 2 thành phần:
+    + header: là 1 thành phần đi trước gửi lên server
+      . trong php có hẳn 1 hàm header():
+      . hàm này có thể chỉnh sửa các thuộc tính của request ("Content-Type")
+                vd: <?php
+                      header("Content-Type:image/png");
+                      readfile('khanh.jpg');
+      . sử dụng để lấy data từ server về html (gọi lên file php nhưng vẫn có thể trả về bất kỳ loại file nào)
+                vd: <img src="http://localhost/ForExample/OOP/httpEx.php" alt="">
+      . Content-Length: độ dài ký tự trong body
+      . Location: khi hàm header gọi đến thuộc tính này thì sẽ tự động trả về địa chỉ trong Location (thường dùng để chuyển trang)
+                vd: header("Location: http://google.com.vn");
+      . còn các thuộc tính khác thì search gg key: "php header"
+    + body: là những lệnh in ra vd: echo
+
+- upload file:
+  + sử dụng thông qua form (multi-part)
+  + lưu file ở thư mục tạm
+  + di chuyển file từ thư mục tạm đến đích
+    . sử dụng biến $_FILES
+    . sử dụng hàm move_uploaded_file($FILES['tên file ở input']['tmp_name', 'thư mục cần upload trên server']);
+    . các thuộc tính của form:
+      . method="post"
+      . enctype="multipart/form-data"
+
+                vd: <?php
+                    if (isset($_FILES['avatar'])) {
+                      move_uploaded_file($_FILES['avatar']['tmp_name'],'uploads/abc.jpg');
+                    }
+                    ?>
+                    <form action="uploadFile.php" method="post" enctype="multipart/form-data">
+                      <input type="file" name="avatar">
+                      <button type="submit" name="upAvatar">UPLOAD</button>
+                    </form>
+    . file_exist(): nếu trong thư mục trên server có file trùng tên với file người dùng up lên sẽ bị ghi đè lên file cũ thì cần 1 hàm để đánh dấu file đó
+                vd: <?php
+                    if (isset($_FILES['avatar'])) {
+                      $newName = $_FILES['avatar']['name'];
+                      while (file_exists('uploads/'.$newName)) {
+                        $newName = 'k'.$newName;
+                      }
+                      move_uploaded_file($_FILES['avatar']['tmp_name'], 'uploads/'.$newName);
+                    }
+                    ?>
+
+- date/time: xử lý thời gian
+  + date(date format, timestamp): trả về thời gian hiện tại (thời gian theo server) 
+    . bắt buộc phải có các ký tự 'd','m','y' các ký tự nối có thể bất kỳ
+    . không có tham số timestamp thì sẽ lấy thời gian hiện tại
+        vd: <?php
+            echo date(d-m-y h:i:s);
+    . d : ngày trong tháng (các số)
+    . D : ngày trong tuần (các thứ trong tuần tiếng anh)
+    . m : tháng (số)
+    . M : tháng (chữ tiếng anh)
+    . y : 2 số cuối của năm
+    . Y : 4 số
+    . h : giờ (12 tiếng)
+    . H : giờ (24 tiếng)
+    . i : phút
+    . s : giây 
+  + time(): trả về timestamp:
+    . là số giây tính từ ngày 1/1/1970
+    . sử dụng hàm này sẽ có thể tính toán với thời gian tốt hơn
+  + kết hợp 2 hàm date() và time() ta có thể tính toán các mốc thời gian cụ thể
+        vd: <?php
+            $timestamp = time();
+            $oneHourLater = $timestamp + 3600;
+            echo 'Thời gian hiện tại là: '.date('d/m/y H:i:s');
+            echo "<br/>";
+            echo 'Thời gian 1 giờ sau là: '.date('d/m/y H:i:s', $oneHourLater);
+            ?>
+
+- json: 
+  + là 1 kiểu dữ liệu không phụ thuộc vào bất kỳ ngôn ngữ lập trình nào cả  
+  + thường dùng để truyền dữ liệu đi giữa các ngôn ngữ khác nhau  
+  + được viết dưới dạng object của js
+        vd: {
+              "name" : "hoàng văn khánh",
+              "age" : 21
+            }
+  + json_decode(): khi nhận được file json coder cần phải mã hóa nó về ngôn ngữ đang dùng
+        vd: $data = {
+              "name" : "hoàng văn khánh",
+              "age" : 21
+            }
+            $me = json_decode($data);
+            echo $me;
+  + json_encode(): chuyển từ ngôn ngữ hiện tại sang json
+        vd: $me = new stdClass();
+            $me->name = "hoàng văn khánh";
+            $me->age = 21;
+
+            $data = json_encode($me);
+            echo $data;
+  + dùng để chuyển code từ php trên server về js trên client
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+

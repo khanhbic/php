@@ -1,0 +1,129 @@
+* kết nối php với database
+
+- sử dụng 1 class mysqli:
+- biến $connection
+  $connection = new mysqli('ip_add', 'username', 'password', 'db_name', 'port');
+- vd:
+  $connection = new mysqli('localhost', 'root', '24318099a', 'blog', '3306', '');
+- kiểm tra kết quả của kết nối:
+  if (($connection->connect_errno)!=0) {
+    echo 'lỗi kết nối';
+  }
+  else {
+    echo 'kết nối thành công!!!';
+  }
+- sử dụng các câu query với PHP
+  + chuẩn bị 1 statement : $statement = $connection->prepare('câu lệnh query');
+  + sử dụng result để execute : $result = $statement->execute();
+      vd: $statement = $connection->prepare('update articles set title = "abc" where id = 1');  
+          $result = $statement->execute();
+
+- hàm bind_param() : 
+  + sử dụng để gán giá trị vào các tham số:
+  + hàm bind_param() chỉ có thể tham chiếu đến các biến nên không thể đưa giá trị cụ thể vào hàm này (line 33)
+      vd: <?php 
+            echo "hello everybody!!!";
+            $connection = new mysqli('localhost', 'root', '24318099a', 'blog', '3306', '');
+            if (($connection->connect_errno)!=0) {
+                  echo 'lỗi kết nối';
+            }
+            else {
+                  echo 'kết nối thành công!!!';
+            }
+            $sql = "INSERT INTO articles (user_id, title, content) VALUES (?, ?, ?)";            
+            // Tạo đối tượng repared
+            $stmt = $connection->prepare($sql);             
+            // Gán giá trị vào các tham số ẩn
+            $stmt->bind_param("iss", $user_id, $title, $content);             
+            // Thực thi câu truy vấn
+            $user_id = '3';
+            $title = 'Tiêu đề 1';
+            $content = 'Nội dung 1';
+            $stmt->execute();
+            echo "Thêm thành công!";
+          ?>      
+
+- hàm get_result(): 
+  + là hàm sử dụng để lấy kết quả trả về sau khi chạy hàm execute();
+  + trả về 1 object chứa các thông tin kết quả trả về
+      vd: $query = 'select * from users where username = ? and password = ? limit 1';
+          $statement = $connection->prepare($query);
+          $statement->bind_param('ss', $username, $password);
+          $username = 'hvkhanh';
+          $password = '24318099a';
+          $statement->execute();
+          $result = $statement->get_result();
+
+- hàm fetch_() :
+  + hàm để đọc dữ liệu từ hàm get_result() thường được sử dụng cho các câu query đọc dữ liệu
+  + có 2 loại là trả về array và trả về object
+  + nếu đọc nhiều dòng dữ liệu thì sử dụng vòng lặp "while":
+      vd: $sql = "select * from articles";
+          $stmt = $connection->prepare($sql);
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          while ( $row = $result->fetch_object() ) {
+            echo $row->title;
+            echo '<br/>';
+          } 
+  + nếu chỉ đọc từ 1 dòng thì không cần dùng vòng lặp
+      vd: $sql = "select * from articles where id = ?";
+          $stmt = $connection->prepare($sql);
+          $stmt->bind_param('i', $id);
+          $id = 2;
+          $stmt->execute();
+          $result = $stmt->get_result();
+
+          $row = $result->fetch_object();
+
+- cách hoạt động của 1 ứng dụng thuần php trong thực tế:
+  + sử dụng mô hình MVC: phân tách 1 project thành 3 thành phần:
+    . model : là những class tương tác với DB 
+      . thông thường mỗi bảng trong DB sẽ là 1 model
+      . ở trong thư mục này có thêm 1 model tên là DB sử dụng để connect đến DB và xử lý các câu query
+    . view : là thành phần hiển thị dữ liệu ra người dùng 
+      . chỉ sử dụng các câu lệnh in ra màn hình
+    . comtroller : là thành phần nhận yêu cầu từ request để xử lý
+      . mỗi model sẽ có 1 comtroller ứng với nó
+  + tất cả các request sẽ phải đi qua file index.php ở ngoài cùng sau đó trong file này sẽ có các hàm điều hướng đến các controller cụ thể
+      vd: (trong E:\Documents\Fullstack3\Backend\ForExample\exMVC)
+
+- core class
+  + là các class và hàm mà các model nào đều sử dụng
+  + mục đích để không cần phải viết lại 1 hoặc nhiều câu lệnh nhiều lần
+      vd: (trong E:\Documents\Fullstack3\Backend\ForExample\exMVC)
+
+- pagination (phân trang): sử dụng các chức năng:
+  + interface hoặc trait trong php
+  + limit và offset trong sql 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

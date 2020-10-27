@@ -1,0 +1,98 @@
+C:\Program Files\MySQL\MySQL Server 8.0\bin
+
+* Ngôn ngữ SQL
+- là 1 ngôn ngữ để truy vấn cơ sở dữ liệu
+- mỗi câu lệnh là 1 query
+- câu lệnh cơ bản:
+  + show databases; \\hiển thị tất cả các database
+  + create database [tên db]; \\tạo 1 db mới
+  + drop database [tên db]; \\xóa 1 db
+  + use [tên db]: lựa chọn db để thực hiện câu lệnh
+  + source [1 đường dẫn]: lấy 1 file từ đâu đó
+  + dump database: sử dụng để export db thành 1 file.sql hoặc import 1 file .sql vào 1 db
+    . c1: sử dụng giao diện > server> data export/import
+    . c2: cmd
+      . export: 
+        mysql> mysqldump -u root -p blog > csdl.sql
+      . import: 
+        mysql> create database blog;
+        mysql> use blog;
+        mysql> source C:\Users\I am H.V.Khanh\csdl.sql
+
+- thao tác với db:
+  + show tables; \\hiển thị tất cả các bảng của db
+  + các câu lệnh truy vấn dữ liệu:
+    . thêm dữ liệu: insert into [tên bảng](danh sách các cột sẽ thêm) values ('các giá trị ứng với các cột');
+        vd: mysql> insert into users(username, password, email, sex) values ('hoang van khanh', '24318099a', 'ab1808ba@gmail.com','nam');
+
+    . sửa dữ liệu (luôn luôn phải có where)
+        vd: mysql> update articles set title = 'hate you but still love you' where id = 2;
+
+    . xóa dữ liệu của 1 hàng trong 1 bảng
+        vd: mysql> delete from users where id = 3;
+
+    . xóa toàn bộ dữ liệu của bảng và set về như ban đầu:
+        vd: mysql> trancate [tên bảng];
+
+    . đọc dữ liệu từ 1 bảng:
+        vd: mysql> select username, email from users;
+        vd: mysql> select * from users;
+
+    . đổi tên cột(không làm thay đổi tên cột đó trong db):
+        vd: mysql> select username as tentruycap, password as matkhau from users;
+
+    . điều kiện where:
+      . =, !=
+      . and , or, between
+      . like 
+        vd: select * from users where username like '%van%';
+
+      . để search dữ liệu nhanh hơn ta thêm các index vào cho các cột
+
+- hàm:
+  + sum : hàm tính tổng
+        vd: mysql> select sum(views) from articles;
+        vd: mysql> select sum(views) as tong from articles where user_id = 2;
+  + min : hàm tìm theo giá trị nhỏ nhất
+        vd: mysql> select min(views) from articles;         
+  + max : hàm tìm theo giá trị lớn nhất
+        vd: mysql> select max(views) from articles;  
+  + avg : tìm theo giá trị trung bình
+        vd: mysql> select avg(views) from articles;  
+  + limit : hàm giới hạn số lượng trả về
+        vd: chỉ lấy 2 bài viết trả về cho kết quả
+        mysql>select * from articles limit 2;
+  + offset : lấy từ cái thứ mấy (thường kết hợp với limit)
+        vd: mỗi trang chỉ có 3 bài viết
+        mysql>select * from articles limit 3 offset 0;
+        mysql>select * from articles limit 3 offset 3;
+  + order by : sắp xếp dữ liệu theo thứ tự tăng hoặc giảm
+    . tăng dần: sử dụng thêm từ khóa 'asc' hoặc có thể không dùng
+        vd: mysql>select * from articles order by views asc;
+    . giảm dần: sử dụng thêm từ khóa 'desc'
+        vd: mysql>select * from articles order by views desc;
+  + join:
+    . left join : ưu tiên lấy phần bên trái, nếu bên phải không có trở thành NULL
+    . right join : ưu tiên lấy phần bên phải, nếu bên trái không có trở thành NULL
+    . inner join : chỉ lấy phần giao giữa 2 bảng
+    . outer join :
+      . left outer join : lấy phần bên trái và phần giao
+      . right outer join : lấy phần bên phải và phần giao
+      . full outer join : lần toàn bộ 2 bên trái phải và phần ở giữa
+  + case: câu điều kiện 
+    . bắt đầu bằng từ khóa "case" 
+    . điều kiện bắt đầu bằng "when" 
+    . kết thúc when sử dụng từ khóa "then"
+    . sau đó là "else"
+    . kết thúc bằng "end"
+        vd: mysql> select (case when views < 30 then "ke'm" else "to^'t" end) as xep_hang from articles;
+
+- sub query: câu query nhỏ (trong câu lệnh query còn có 1 câu query khác)
+
+    vd: đưa ra tên bài viết, số lượt xem và xếp hàng lượt xem của các bài viết đó : ít hơn 30 là kém còn lại là tốt
+    mysql> select title as tieu_de, views as luot_xem, (case when views < 30 then "ke'm" else "to^'t" end) as xep_hang from articles;
+
+
+
+        
+
